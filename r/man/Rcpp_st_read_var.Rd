@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{Rcpp_st_read_var}
 \alias{Rcpp_st_read_var}
-\title{Read var table from a v2 .spz file}
+\title{Read var table from a .spz file}
 \usage{
 Rcpp_st_read_var(path)
 }
@@ -13,6 +13,6 @@ Rcpp_st_read_var(path)
 A data.frame, or empty data.frame if no var table
 }
 \description{
-Read var table from a v2 .spz file
+Read var table from a .spz file
 }
 \keyword{internal}

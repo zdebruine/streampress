@@ -1,5 +1,5 @@
 /**
- * @file header_v2.hpp
+ * @file header_sparse.hpp
  * @brief SparsePress v2 format specification.
  *
  * Chunked format with 256-column chunks, random-access decompression,

@@ -4,16 +4,16 @@
  *
  * Converts between R's dgCMatrix and streampress::CSCMatrix,
  * then delegates to the header-only streampress library.
- * Supports both v1 (monolithic) and v2 (chunked) formats.
+ * Supports sparse and dense formats.
  */
 
 #include <Rcpp.h>
 
-#include <streampress/sparsepress.hpp>
-#include <streampress/sparsepress_v2.hpp>
-#include <streampress/sparsepress_v3.hpp>
-#include <streampress/format/header_v2.hpp>
-#include <streampress/format/header_v3.hpp>
+#include <streampress/format/legacy.hpp>
+#include <streampress/sparse.hpp>
+#include <streampress/dense.hpp>
+#include <streampress/format/header_sparse.hpp>
+#include <streampress/format/header_dense.hpp>
 #include <streampress/transpose.hpp>
 
 // ---------------------------------------------------------------------------
@@ -298,7 +298,7 @@ S4 Rcpp_sp_read(const std::string& path,
     return csc_to_dgc(mat);
 }
 
-//' @title Read the pre-stored transpose from a v2 StreamPress (.spz) file
+//' @title Read the pre-stored transpose from a StreamPress (.spz) file
 //' @param path Input file path (.spz)
 //' @return A sparse matrix (dgCMatrix) containing CSC(A^T)
 //' @keywords internal
@@ -427,7 +427,7 @@ List Rcpp_sp_metadata(const std::string& path) {
 
     // v1 header
     if (file_size < static_cast<long>(streampress::HEADER_SIZE)) {
-        stop("File too small to be a valid v1 .spz file");
+        stop("File too small to be a valid .spz file");
     }
 
     streampress::FileHeader header = streampress::FileHeader::deserialize(header_bytes);
@@ -498,10 +498,10 @@ S4 Rcpp_sp_decompress(const RawVector& data) {
 }
 
 // =============================================================================
-// SPZ v3 Dense Format
+// SPZ Dense Format
 // =============================================================================
 
-//' @title Write a dense matrix to an SPZ v3 file
+//' @title Write a dense matrix to a dense SPZ file
 //' @param A A numeric matrix (dense)
 //' @param path Output file path (.spz)
 //' @param include_transpose Also store transposed panels for streaming NMF
@@ -562,8 +562,8 @@ List Rcpp_sp_write_dense(const NumericMatrix& A, const std::string& path,
     );
 }
 
-//' @title Read an SPZ v3 dense file into a numeric matrix
-//' @param path Input file path (.spz v3)
+//' @title Read a dense SPZ file into a numeric matrix
+//' @param path Input file path (.spz)
 //' @return A numeric matrix
 //' @keywords internal
 // [[Rcpp::export]]
@@ -585,8 +585,8 @@ NumericMatrix Rcpp_sp_read_dense(const std::string& path) {
     // Verify version
     uint16_t ver = streampress::v3::detect_version(data.data(), file_size);
     if (ver != 3) {
-        stop("Not an SPZ v3 file (version=" + std::to_string(ver) +
-             "). Use sp_read() for v1/v2 sparse files.");
+        stop("Not a dense SPZ file (version=" + std::to_string(ver) +
+             "). Use st_read() for sparse files.");
     }
 
     std::vector<float> fdata;
@@ -602,8 +602,8 @@ NumericMatrix Rcpp_sp_read_dense(const std::string& path) {
     return result;
 }
 
-//' @title Get metadata from an SPZ v3 dense file
-//' @param path Input file path (.spz v3)
+//' @title Get metadata from a dense SPZ file
+//' @param path Input file path (.spz)
 //' @return A list with file metadata
 //' @keywords internal
 // [[Rcpp::export]]
@@ -622,7 +622,7 @@ List Rcpp_sp_metadata_v3(const std::string& path) {
 
     uint16_t ver = streampress::v3::detect_version(buf, nread);
     if (ver != 3) {
-        stop("Not an SPZ v3 file (version=" + std::to_string(ver) + ")");
+        stop("Not a dense SPZ file (version=" + std::to_string(ver) + ")");
     }
 
     streampress::v3::FileHeader_v3 hdr =
@@ -662,11 +662,11 @@ double Rcpp_get_available_ram_mb() {
 }
 
 // =============================================================================
-// st_add_transpose: add transpose section to existing v2 .spz file
+// st_add_transpose: add transpose section to existing .spz file
 // =============================================================================
 
-//' @title Add transpose section to an existing v2 .spz file
-//' @param path Path to the .spz v2 file
+//' @title Add transpose section to an existing .spz file
+//' @param path Path to the .spz file
 //' @param verbose Logical; print progress
 //' @return Logical TRUE on success
 //' @keywords internal
@@ -922,7 +922,7 @@ RawVector Rcpp_st_serialize_table(const DataFrame& df) {
     return out;
 }
 
-//' @title Read obs table from a v2 .spz file
+//' @title Read obs table from a .spz file
 //' @param path Path to .spz file
 //' @return A data.frame, or empty data.frame if no obs table
 //' @keywords internal
@@ -942,12 +942,12 @@ DataFrame Rcpp_st_read_obs(const std::string& path) {
 
     FileHeader_v2 hdr = FileHeader_v2::deserialize(hdr_buf);
     if (!hdr.valid() || hdr.version != 2)
-        stop("Not a valid v2 .spz file");
+        stop("Not a valid .spz file");
 
     return read_table_at_offset(path, hdr.obs_table_offset());
 }
 
-//' @title Read var table from a v2 .spz file
+//' @title Read var table from a .spz file
 //' @param path Path to .spz file
 //' @return A data.frame, or empty data.frame if no var table
 //' @keywords internal
@@ -967,7 +967,7 @@ DataFrame Rcpp_st_read_var(const std::string& path) {
 
     FileHeader_v2 hdr = FileHeader_v2::deserialize(hdr_buf);
     if (!hdr.valid() || hdr.version != 2)
-        stop("Not a valid v2 .spz file");
+        stop("Not a valid .spz file");
 
     return read_table_at_offset(path, hdr.var_table_offset());
 }

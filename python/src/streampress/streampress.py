@@ -153,7 +153,7 @@ def st_slice(
     elif cols is not None:
         return st_slice_cols(path, cols, threads=threads)
     else:
-        from factornet import st_read
+        from streampress import st_read
         return st_read(path, threads=threads)
 
 
@@ -290,7 +290,7 @@ def st_obs_indices(path: str, predicate) -> np.ndarray:
     np.ndarray of int
         0-indexed row indices matching the predicate.
     """
-    from factornet import st_read_obs
+    from streampress import st_read_obs
 
     obs = st_read_obs(path)
     if obs.empty:
@@ -337,7 +337,7 @@ def st_filter_cols(path: str, predicate, *, threads: int = 0):
     -------
     scipy.sparse.csc_matrix
     """
-    from factornet import st_read_var
+    from streampress import st_read_var
 
     var = st_read_var(path)
     if var.empty:
@@ -370,7 +370,7 @@ def st_write_list(
         Print progress.
     """
     from scipy.sparse import hstack
-    from factornet import st_write
+    from streampress import st_write
 
     if not matrices:
         raise ValueError("matrices list must not be empty")

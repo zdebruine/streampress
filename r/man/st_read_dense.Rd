@@ -2,18 +2,18 @@
 % Please edit documentation in R/streampress.R
 \name{st_read_dense}
 \alias{st_read_dense}
-\title{Read a Dense Matrix from StreamPress v3 Format}
+\title{Read a Dense Matrix from StreamPress Dense Format}
 \usage{
 st_read_dense(path)
 }
 \arguments{
-\item{path}{Path to a StreamPress v3 \code{.spz} file.}
+\item{path}{Path to a StreamPress \code{.spz} file.}
 }
 \value{
 A numeric matrix.
 }
 \description{
-Read a Dense Matrix from StreamPress v3 Format
+Read a Dense Matrix from StreamPress Dense Format
 }
 \examples{
 \donttest{

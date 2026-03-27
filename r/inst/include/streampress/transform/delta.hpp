@@ -1,4 +1,4 @@
-// sparsepress - Delta encoding for sorted row indices
+// streampress - Delta encoding for sorted row indices
 // Copyright (C) 2026 Zach DeBruine
 // License: GPL (>= 3)
 

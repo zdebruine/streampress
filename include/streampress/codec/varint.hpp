@@ -1,4 +1,4 @@
-// sparsepress - Variable-length integer codec
+// streampress - Variable-length integer codec
 // Copyright (C) 2026 Zach DeBruine
 // License: GPL (>= 3)
 

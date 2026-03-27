@@ -1,4 +1,4 @@
-// sparsepress - Deep compression for sparse CSC matrices
+// streampress - Deep compression for sparse CSC matrices
 // Copyright (C) 2026 Zach DeBruine
 // License: GPL (>= 3)
 

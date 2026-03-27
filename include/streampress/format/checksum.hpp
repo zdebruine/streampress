@@ -1,4 +1,4 @@
-// sparsepress - CRC32 checksum (no external dependencies)
+// streampress - CRC32 checksum (no external dependencies)
 // Copyright (C) 2026 Zach DeBruine
 // License: GPL (>= 3)
 

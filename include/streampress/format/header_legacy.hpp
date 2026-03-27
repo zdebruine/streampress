@@ -1,4 +1,4 @@
-// sparsepress - Binary format header definition
+// streampress - Binary format header definition
 // Copyright (C) 2026 Zach DeBruine
 // License: GPL (>= 3)
 

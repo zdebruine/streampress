@@ -1,4 +1,4 @@
-// sparsepress - rANS (range Asymmetric Numeral Systems) entropy codec
+// streampress - rANS (range Asymmetric Numeral Systems) entropy codec
 // Copyright (C) 2026 Zach DeBruine
 // License: GPL (>= 3)
 //

@@ -1,5 +1,5 @@
 /**
- * @file sparsepress_v2.hpp
+ * @file sparse.hpp
  * @brief SparsePress v2 chunked encoder/decoder.
  *
  * Implements 256-column chunked compression with:
@@ -12,10 +12,10 @@
  *   - Partial column reads
  */
 
-#ifndef SPARSEPRESS_V2_HPP
-#define SPARSEPRESS_V2_HPP
+#ifndef STREAMPRESS_SPARSE_HPP
+#define STREAMPRESS_SPARSE_HPP
 
-#include <streampress/format/header_v2.hpp>
+#include <streampress/format/header_sparse.hpp>
 #include <streampress/format/obs_var_table.hpp>
 #include <streampress/core/types.hpp>
 #include <streampress/codec/varint.hpp>
@@ -1722,4 +1722,4 @@ inline uint16_t detect_version(const uint8_t* data, size_t data_size) {
 } // namespace v2
 } // namespace streampress
 
-#endif // SPARSEPRESS_V2_HPP
+#endif // STREAMPRESS_SPARSE_HPP

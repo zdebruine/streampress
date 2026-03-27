@@ -1,4 +1,4 @@
-// sparsepress - Predictive models for delta and value compression
+// streampress - Predictive models for delta and value compression
 // Copyright (C) 2026 Zach DeBruine
 // License: GPL (>= 3)
 //

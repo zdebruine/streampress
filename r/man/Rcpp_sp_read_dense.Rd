@@ -2,17 +2,17 @@
 % Please edit documentation in R/RcppExports.R
 \name{Rcpp_sp_read_dense}
 \alias{Rcpp_sp_read_dense}
-\title{Read an SPZ v3 dense file into a numeric matrix}
+\title{Read a dense SPZ file into a numeric matrix}
 \usage{
 Rcpp_sp_read_dense(path)
 }
 \arguments{
-\item{path}{Input file path (.spz v3)}
+\item{path}{Input file path .spz (dense)}
 }
 \value{
 A numeric matrix
 }
 \description{
-Read an SPZ v3 dense file into a numeric matrix
+Read a dense SPZ file into a numeric matrix
 }
 \keyword{internal}

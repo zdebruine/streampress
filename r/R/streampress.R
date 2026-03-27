@@ -10,11 +10,11 @@
 #' across independent chunks while raw CSC must perform sequentially.
 #'
 #' @details
-#' StreamPress (.spz) supports two format versions:
+#' StreamPress (.spz) supports sparse and dense formats:
 #' \itemize{
-#'   \item \strong{v2 (sparse)}: Column-oriented compressed CSC format.
+#'   \item \strong{Sparse}: Column-oriented compressed CSC format.
 #'     Lossless, 5-10x compression over raw float32 CSC. Self-describing header.
-#'   \item \strong{v3 (dense)}: Column-major dense panels with optional
+#'   \item \strong{Dense}: Column-major dense panels with optional
 #'     FP16/QUANT8/rANS compression. For streaming NMF on dense data.
 #' }
 #'
@@ -214,7 +214,7 @@ st_info <- function(path) {
   Rcpp_sp_metadata(path)
 }
 
-#' Write a Dense Matrix to StreamPress v3 Format
+#' Write a Dense Matrix to StreamPress Format
 #'
 #' @param x A numeric matrix.
 #' @param path Output file path. Extension \code{.spz} is recommended.
@@ -257,7 +257,7 @@ st_write_dense <- function(x, path, include_transpose = FALSE,
   if (verbose) {
     codec_label <- if (codec_int == 0L) "" else paste0(", codec=", codec)
     ratio <- if (stats$raw_bytes > 0) stats$file_bytes / stats$raw_bytes else NA
-    message(sprintf("StreamPress v3 dense: %d x %d -> %s (%d chunks%s%s, ratio=%.2f)",
+    message(sprintf("StreamPress dense: %d x %d -> %s (%d chunks%s%s, ratio=%.2f)",
                     stats$rows, stats$cols,
                     .format_bytes(stats$file_bytes),
                     stats$num_chunks,
@@ -267,9 +267,9 @@ st_write_dense <- function(x, path, include_transpose = FALSE,
   invisible(stats)
 }
 
-#' Read a Dense Matrix from StreamPress v3 Format
+#' Read a Dense Matrix from StreamPress Format
 #'
-#' @param path Path to a StreamPress v3 \code{.spz} file.
+#' @param path Path to a StreamPress \code{.spz} file.
 #'
 #' @return A numeric matrix.
 #'
@@ -293,7 +293,7 @@ st_read_dense <- function(path) {
 #' Convert Any Supported Format to StreamPress (.spz)
 #'
 #' One-time migration tool: read a matrix from any supported format
-#' and write it as a \code{.spz} v2 file.
+#' and write it as a \code{.spz} file.
 #'
 #' @param input Path to input file or an in-memory matrix.
 #' @param output Path for the output \code{.spz} file.
@@ -437,7 +437,7 @@ st_add_transpose <- function(path, verbose = TRUE) {
 
 #' Read Observation (Row) Metadata from a StreamPress File
 #'
-#' Reads the embedded obs table from a v2 \code{.spz} file without
+#' Reads the embedded obs table from a \code{.spz} file without
 #' decompressing the matrix data. Returns an empty data.frame if no obs
 #' table was stored.
 #'
@@ -460,7 +460,7 @@ st_read_obs <- function(path) {
 
 #' Read Variable (Column) Metadata from a StreamPress File
 #'
-#' Reads the embedded var table from a v2 \code{.spz} file without
+#' Reads the embedded var table from a \code{.spz} file without
 #' decompressing the matrix data. Returns an empty data.frame if no var
 #' table was stored.
 #'

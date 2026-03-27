@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{Rcpp_sp_write_dense}
 \alias{Rcpp_sp_write_dense}
-\title{Write a dense matrix to an SPZ v3 file}
+\title{Write a dense matrix to a dense SPZ file}
 \usage{
 Rcpp_sp_write_dense(
   A,
@@ -30,6 +30,6 @@ Rcpp_sp_write_dense(
 A list with write statistics
 }
 \description{
-Write a dense matrix to an SPZ v3 file
+Write a dense matrix to a dense SPZ file
 }
 \keyword{internal}

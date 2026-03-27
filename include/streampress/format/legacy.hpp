@@ -1,9 +1,9 @@
-// sparsepress - Main public API header
+// streampress - Main public API header
 // Copyright (C) 2026 Zach DeBruine
 // License: GPL (>= 3)
 
-#ifndef SPARSEPRESS_HPP
-#define SPARSEPRESS_HPP
+#ifndef STREAMPRESS_LEGACY_HPP
+#define STREAMPRESS_LEGACY_HPP
 
 #include <streampress/core/types.hpp>
 #include <streampress/core/prng.hpp>
@@ -11,7 +11,7 @@
 #include <streampress/codec/varint.hpp>
 #include <streampress/codec/golomb_rice.hpp>
 #include <streampress/codec/rans.hpp>
-#include <streampress/format/header.hpp>
+#include <streampress/format/header_legacy.hpp>
 #include <streampress/format/checksum.hpp>
 #include <streampress/model/analyzer.hpp>
 #include <streampress/model/predictor.hpp>
@@ -46,12 +46,12 @@ inline std::vector<uint8_t> compress(const CSCMatrix& mat,
     MatrixStats mstats = analyze(mat);
 
     if (cfg.verbose) {
-        SPZ_FPRINTF(stderr, "[sparsepress] Matrix: %u × %u, nnz=%lu, density=%.4f%%\n",
+        SPZ_FPRINTF(stderr, "[streampress] Matrix: %u × %u, nnz=%lu, density=%.4f%%\n",
                      mstats.m, mstats.n, (unsigned long)mstats.nnz,
                      mstats.density * 100.0);
-        SPZ_FPRINTF(stderr, "[sparsepress] Max value: %u, all_integer=%d, distinct=%u\n",
+        SPZ_FPRINTF(stderr, "[streampress] Max value: %u, all_integer=%d, distinct=%u\n",
                      mstats.max_value, mstats.all_integer, mstats.n_distinct_values);
-        SPZ_FPRINTF(stderr, "[sparsepress] Value entropy: %.3f bits, Gap entropy est: %.3f bits\n",
+        SPZ_FPRINTF(stderr, "[streampress] Value entropy: %.3f bits, Gap entropy est: %.3f bits\n",
                      mstats.value_entropy, mstats.gap_entropy);
     }
 
@@ -406,18 +406,18 @@ inline std::vector<uint8_t> compress(const CSCMatrix& mat,
     }
 
     if (cfg.verbose) {
-        SPZ_FPRINTF(stderr, "[sparsepress] Compressed: %zu → %zu bytes (%.2f× ratio)\n",
+        SPZ_FPRINTF(stderr, "[streampress] Compressed: %zu → %zu bytes (%.2f× ratio)\n",
                      mat.raw_size(), output.size(),
                      static_cast<double>(mat.raw_size()) / output.size());
-        SPZ_FPRINTF(stderr, "[sparsepress]   Header: %zu, Model: %zu, ColCounts: %zu\n",
+        SPZ_FPRINTF(stderr, "[streampress]   Header: %zu, Model: %zu, ColCounts: %zu\n",
                      (size_t)HEADER_SIZE, model_data.size(), col_counts_data.size());
-        SPZ_FPRINTF(stderr, "[sparsepress]   Structure K: %zu, Structure: %zu, Values: %zu\n",
+        SPZ_FPRINTF(stderr, "[streampress]   Structure K: %zu, Structure: %zu, Values: %zu\n",
                      struct_k_data.size(), struct_encoded.size(), values_encoded.size());
-        SPZ_FPRINTF(stderr, "[sparsepress]   Bits/nnz: %.3f (structure: %.3f, values: %.3f)\n",
+        SPZ_FPRINTF(stderr, "[streampress]   Bits/nnz: %.3f (structure: %.3f, values: %.3f)\n",
                      static_cast<double>(output.size()) * 8.0 / mat.nnz,
                      static_cast<double>(struct_k_data.size() + struct_encoded.size()) * 8.0 / mat.nnz,
                      static_cast<double>(values_encoded.size()) * 8.0 / mat.nnz);
-        SPZ_FPRINTF(stderr, "[sparsepress]   Compress time: %.1f ms\n",
+        SPZ_FPRINTF(stderr, "[streampress]   Compress time: %.1f ms\n",
                      std::chrono::duration<double, std::milli>(t1 - t0).count());
     }
 
@@ -729,4 +729,4 @@ inline std::vector<uint8_t> read_compressed(const std::string& path) {
 
 } // namespace streampress
 
-#endif // SPARSEPRESS_HPP
+#endif // STREAMPRESS_LEGACY_HPP

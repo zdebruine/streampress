@@ -14,7 +14,7 @@ A \code{data.frame} with observation metadata, or an empty
   data.frame if no obs table is present.
 }
 \description{
-Reads the embedded obs table from a v2 \code{.spz} file without
+Reads the embedded obs table from a \code{.spz} file without
 decompressing the matrix data. Returns an empty data.frame if no obs
 table was stored.
 }

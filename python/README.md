@@ -10,7 +10,7 @@ High-performance compressed sparse matrix I/O for Python using the
 - **Column-oriented chunks**: random column access without full decompression
 - **Optional transpose section**: fast row access via pre-stored CSC(Aᵀ)
 - **Row/column metadata**: attach `obs`/`var` annotation tables
-- **Dense support**: v3 format with FP16/QUANT8/rANS codecs
+- **Dense support**: FP16/QUANT8/rANS codecs for dense matrices
 
 ## Installation
 

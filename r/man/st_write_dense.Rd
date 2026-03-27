@@ -2,7 +2,7 @@
 % Please edit documentation in R/streampress.R
 \name{st_write_dense}
 \alias{st_write_dense}
-\title{Write a Dense Matrix to StreamPress v3 Format}
+\title{Write a Dense Matrix to StreamPress Dense Format}
 \usage{
 st_write_dense(
   x,
@@ -34,7 +34,7 @@ st_write_dense(
 Invisibly returns a list with write statistics.
 }
 \description{
-Write a Dense Matrix to StreamPress v3 Format
+Write a Dense Matrix to StreamPress Dense Format
 }
 \examples{
 \donttest{

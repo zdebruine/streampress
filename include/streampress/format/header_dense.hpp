@@ -1,5 +1,5 @@
 /**
- * @file header_v3.hpp
+ * @file header_dense.hpp
  * @brief SparsePress v3 format specification — dense column-panel storage.
  *
  * Extends SparsePress to handle dense matrices via chunked column-panels.
@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include <streampress/format/header_v2.hpp>  // reuse Footer_v2, FOOTER_MAGIC, etc.
+#include <streampress/format/header_sparse.hpp>  // reuse Footer_v2, FOOTER_MAGIC, etc.
 
 #include <cstdint>
 #include <cstring>

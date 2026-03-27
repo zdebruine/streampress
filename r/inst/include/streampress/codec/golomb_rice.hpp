@@ -1,4 +1,4 @@
-// sparsepress - Golomb-Rice codec for geometric-distributed values
+// streampress - Golomb-Rice codec for geometric-distributed values
 // Copyright (C) 2026 Zach DeBruine
 // License: GPL (>= 3)
 

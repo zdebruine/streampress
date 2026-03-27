@@ -1,4 +1,4 @@
-// sparsepress - xorshift64 PRNG (matches FactorNet's UnifiedRNG)
+// streampress - xorshift64 PRNG (matches FactorNet's UnifiedRNG)
 // Copyright (C) 2026 Zach DeBruine
 // License: GPL (>= 3)
 

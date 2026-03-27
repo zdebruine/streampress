@@ -2,12 +2,12 @@
 % Please edit documentation in R/RcppExports.R
 \name{Rcpp_st_add_transpose}
 \alias{Rcpp_st_add_transpose}
-\title{Add transpose section to an existing v2 .spz file}
+\title{Add transpose section to an existing .spz file}
 \usage{
 Rcpp_st_add_transpose(path, verbose = TRUE)
 }
 \arguments{
-\item{path}{Path to the .spz v2 file}
+\item{path}{Path to the .spz file}
 
 \item{verbose}{Logical; print progress}
 }
@@ -15,6 +15,6 @@ Rcpp_st_add_transpose(path, verbose = TRUE)
 Logical TRUE on success
 }
 \description{
-Add transpose section to an existing v2 .spz file
+Add transpose section to an existing .spz file
 }
 \keyword{internal}

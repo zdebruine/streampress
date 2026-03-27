@@ -1,4 +1,4 @@
-// sparsepress - Bit-level I/O stream
+// streampress - Bit-level I/O stream
 // Copyright (C) 2026 Zach DeBruine
 // License: GPL (>= 3)
 

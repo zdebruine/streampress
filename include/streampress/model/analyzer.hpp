@@ -1,4 +1,4 @@
-// sparsepress - Matrix analyzer (compute statistics for model building)
+// streampress - Matrix analyzer (compute statistics for model building)
 // Copyright (C) 2026 Zach DeBruine
 // License: GPL (>= 3)
 

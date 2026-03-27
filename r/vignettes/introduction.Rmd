@@ -57,7 +57,7 @@ cat(sprintf("Matrix: %d × %d, %.2f%% fill, %d non-zeros\n",
 ```{r write_read}
 path <- tempfile(fileext = ".spz")
 
-# Write with default options (v2 chunked sparse)
+# Write with default options (chunked sparse)
 st_write(mat, path)
 cat("Written to:", path, "\n")
 
@@ -79,7 +79,7 @@ info <- st_info(path)
 print(info)
 ```
 
-The `st_info()` function returns format version, matrix dimensions, non-zero count, creation time, and per-chunk encoding statistics.
+The `st_info()` function returns matrix dimensions, non-zero count, creation time, and per-chunk encoding statistics.
 
 ## Column Slicing
 
@@ -129,7 +129,7 @@ cat("Metadata round-trip: PASSED\n")
 
 ## Dense Matrix I/O
 
-For non-sparse data (e.g., embedding matrices, loadings), streampress offers a dense column-panel format (v3):
+For non-sparse data (e.g., embedding matrices, loadings), streampress offers a dense column-panel format:
 
 ```{r dense}
 set.seed(1)

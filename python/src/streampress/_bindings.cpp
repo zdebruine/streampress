@@ -14,8 +14,8 @@
 
 #include <streampress/streampress_api.hpp>
 #include <streampress/transpose.hpp>
-#include <streampress/sparsepress_v3.hpp>
-#include <streampress/format/header_v2.hpp>
+#include <streampress/dense.hpp>
+#include <streampress/format/header_sparse.hpp>
 #include <streampress/format/obs_var_table.hpp>
 
 #include <cstdio>
@@ -309,7 +309,7 @@ static bool py_st_add_transpose(const std::string& path, bool verbose) {
 }
 
 // =============================================================================
-// Dense write (v3)
+// Dense write
 // =============================================================================
 
 static nb::dict py_st_write_dense(
@@ -343,7 +343,7 @@ static nb::dict py_st_write_dense(
 }
 
 // =============================================================================
-// Dense read (v3)
+// Dense read
 // =============================================================================
 
 static nb::ndarray<nb::numpy, double, nb::ndim<2>> py_st_read_dense(
@@ -363,7 +363,7 @@ static nb::ndarray<nb::numpy, double, nb::ndim<2>> py_st_read_dense(
 
     uint16_t ver = streampress::v3::detect_version(buf.data(), file_size);
     if (ver != 3)
-        throw std::runtime_error("Not an SPZ v3 file (version=" +
+        throw std::runtime_error("Not a dense .spz file (version=" +
                                  std::to_string(ver) + ")");
 
     std::vector<float> fdata;
@@ -401,7 +401,7 @@ static nb::dict py_st_read_table(const std::string& path, bool is_obs) {
     FileHeader_v2 hdr = FileHeader_v2::deserialize(hdr_buf);
     if (!hdr.valid() || hdr.version != 2) {
         std::fclose(f);
-        throw std::runtime_error("Not a valid v2 .spz file");
+        throw std::runtime_error("Not a valid .spz file");
     }
 
     uint64_t table_off = is_obs ? hdr.obs_table_offset() : hdr.var_table_offset();
@@ -577,23 +577,23 @@ NB_MODULE(_core, m) {
         "path"_a, "verbose"_a = true,
         "Add a pre-computed transpose section to an existing .spz file.");
 
-    // ── Dense read/write (v3) ────────────────────────────────────────
+    // ── Dense read/write ────────────────────────────────────────
     m.def("_st_write_dense", &py_st_write_dense,
         "X"_a, "path"_a,
         "include_transpose"_a = false, "chunk_cols"_a = 256,
         "codec"_a = 0, "delta"_a = false,
-        "Write a dense numpy array to .spz v3 format.");
+        "Write a dense numpy array to .spz format.");
 
     m.def("_st_read_dense", &py_st_read_dense,
         "path"_a,
-        "Read an SPZ v3 dense file into a 2D numpy array.");
+        "Read a dense .spz file into a 2D numpy array.");
 
     // ── Metadata tables ──────────────────────────────────────────────
     m.def("_st_read_obs", &py_st_read_obs,
         "path"_a,
-        "Read obs (row) metadata table from a v2 .spz file.");
+        "Read obs (row) metadata table from a .spz file.");
 
     m.def("_st_read_var", &py_st_read_var,
         "path"_a,
-        "Read var (column) metadata table from a v2 .spz file.");
+        "Read var (column) metadata table from a .spz file.");
 }

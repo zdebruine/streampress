@@ -2,17 +2,17 @@
 % Please edit documentation in R/RcppExports.R
 \name{Rcpp_sp_metadata_v3}
 \alias{Rcpp_sp_metadata_v3}
-\title{Get metadata from an SPZ v3 dense file}
+\title{Get metadata from a dense SPZ file}
 \usage{
 Rcpp_sp_metadata_v3(path)
 }
 \arguments{
-\item{path}{Input file path (.spz v3)}
+\item{path}{Input file path .spz (dense)}
 }
 \value{
 A list with file metadata
 }
 \description{
-Get metadata from an SPZ v3 dense file
+Get metadata from a dense SPZ file
 }
 \keyword{internal}

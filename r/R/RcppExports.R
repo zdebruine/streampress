@@ -27,7 +27,7 @@ Rcpp_sp_read <- function(path, cols = NULL, reorder = TRUE, threads = 0L) {
     .Call('_streampress_Rcpp_sp_read', PACKAGE = 'streampress', path, cols, reorder, threads)
 }
 
-#' @title Read the pre-stored transpose from a v2 StreamPress (.spz) file
+#' @title Read the pre-stored transpose from a StreamPress (.spz) file
 #' @param path Input file path (.spz)
 #' @return A sparse matrix (dgCMatrix) containing CSC(A^T)
 #' @keywords internal
@@ -61,7 +61,7 @@ Rcpp_sp_decompress <- function(data) {
     .Call('_streampress_Rcpp_sp_decompress', PACKAGE = 'streampress', data)
 }
 
-#' @title Write a dense matrix to an SPZ v3 file
+#' @title Write a dense matrix to a dense SPZ file
 #' @param A A numeric matrix (dense)
 #' @param path Output file path (.spz)
 #' @param include_transpose Also store transposed panels for streaming NMF
@@ -74,16 +74,16 @@ Rcpp_sp_write_dense <- function(A, path, include_transpose = FALSE, chunk_cols =
     .Call('_streampress_Rcpp_sp_write_dense', PACKAGE = 'streampress', A, path, include_transpose, chunk_cols, codec, delta)
 }
 
-#' @title Read an SPZ v3 dense file into a numeric matrix
-#' @param path Input file path (.spz v3)
+#' @title Read a dense SPZ file into a numeric matrix
+#' @param path Input file path .spz (dense)
 #' @return A numeric matrix
 #' @keywords internal
 Rcpp_sp_read_dense <- function(path) {
     .Call('_streampress_Rcpp_sp_read_dense', PACKAGE = 'streampress', path)
 }
 
-#' @title Get metadata from an SPZ v3 dense file
-#' @param path Input file path (.spz v3)
+#' @title Get metadata from a dense SPZ file
+#' @param path Input file path .spz (dense)
 #' @return A list with file metadata
 #' @keywords internal
 Rcpp_sp_metadata_v3 <- function(path) {
@@ -97,8 +97,8 @@ Rcpp_get_available_ram_mb <- function() {
     .Call('_streampress_Rcpp_get_available_ram_mb', PACKAGE = 'streampress')
 }
 
-#' @title Add transpose section to an existing v2 .spz file
-#' @param path Path to the .spz v2 file
+#' @title Add transpose section to an existing .spz file
+#' @param path Path to the .spz file
 #' @param verbose Logical; print progress
 #' @return Logical TRUE on success
 #' @keywords internal
@@ -114,7 +114,7 @@ Rcpp_st_serialize_table <- function(df) {
     .Call('_streampress_Rcpp_st_serialize_table', PACKAGE = 'streampress', df)
 }
 
-#' @title Read obs table from a v2 .spz file
+#' @title Read obs table from a .spz file
 #' @param path Path to .spz file
 #' @return A data.frame, or empty data.frame if no obs table
 #' @keywords internal
@@ -122,7 +122,7 @@ Rcpp_st_read_obs <- function(path) {
     .Call('_streampress_Rcpp_st_read_obs', PACKAGE = 'streampress', path)
 }
 
-#' @title Read var table from a v2 .spz file
+#' @title Read var table from a .spz file
 #' @param path Path to .spz file
 #' @return A data.frame, or empty data.frame if no var table
 #' @keywords internal

@@ -1,5 +1,5 @@
 /**
- * @file sparsepress_v3.hpp
+ * @file dense.hpp
  * @brief SparsePress v3 dense format — write and read dense column-panel files.
  *
  * Write: Takes a column-major dense matrix, splits into chunk_cols-wide panels,
@@ -13,8 +13,8 @@
 
 #pragma once
 
-#include <streampress/format/header_v3.hpp>
-#include <streampress/format/header_v2.hpp>  // Footer_v2, float_to_half, half_to_float
+#include <streampress/format/header_dense.hpp>
+#include <streampress/format/header_sparse.hpp>  // Footer_v2, float_to_half, half_to_float
 #include <streampress/format/checksum.hpp>    // CRC32
 #include <streampress/codec/rans.hpp>
 

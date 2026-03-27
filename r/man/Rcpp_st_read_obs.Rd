@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{Rcpp_st_read_obs}
 \alias{Rcpp_st_read_obs}
-\title{Read obs table from a v2 .spz file}
+\title{Read obs table from a .spz file}
 \usage{
 Rcpp_st_read_obs(path)
 }
@@ -13,6 +13,6 @@ Rcpp_st_read_obs(path)
 A data.frame, or empty data.frame if no obs table
 }
 \description{
-Read obs table from a v2 .spz file
+Read obs table from a .spz file
 }
 \keyword{internal}

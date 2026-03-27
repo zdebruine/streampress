@@ -32,7 +32,7 @@ Invisibly returns a list with conversion statistics.
 }
 \description{
 One-time migration tool: read a matrix from any supported format
-and write it as a \code{.spz} v2 file.
+and write it as a \code{.spz} file.
 }
 \seealso{
 \code{\link{st_read}}, \code{\link{st_write}}, \code{\link{st_info}}

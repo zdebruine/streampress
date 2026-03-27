@@ -9,9 +9,9 @@
 #define STREAMPRESS_API_HPP
 
 #include <streampress/core/types.hpp>
-#include <streampress/sparsepress.hpp>
-#include <streampress/sparsepress_v2.hpp>
-#include <streampress/format/header_v2.hpp>
+#include <streampress/format/legacy.hpp>
+#include <streampress/sparse.hpp>
+#include <streampress/format/header_sparse.hpp>
 #include <streampress/format/obs_var_table.hpp>
 #include <streampress/chunk_iterator.hpp>
 

@@ -1,8 +1,8 @@
 #pragma once
 // streampress/transpose.hpp — Post-hoc transpose addition for v2 .spz files
 
-#include <streampress/sparsepress_v2.hpp>
-#include <streampress/format/header_v2.hpp>
+#include <streampress/sparse.hpp>
+#include <streampress/format/header_sparse.hpp>
 #include <string>
 #include <cstdio>
 #include <cstring>

@@ -13,11 +13,11 @@ the bottleneck in reading large sparse matrices is sparse object construction
 across independent chunks while raw CSC must perform sequentially.
 }
 \details{
-StreamPress (.spz) supports two format versions:
+StreamPress (.spz) supports sparse and dense formats:
 \itemize{
-  \item \strong{v2 (sparse)}: Column-oriented compressed CSC format.
+  \item \strong{Sparse}: Column-oriented compressed CSC format.
     Lossless, 5-10x compression over raw float32 CSC. Self-describing header.
-  \item \strong{v3 (dense)}: Column-major dense panels with optional
+  \item \strong{Dense}: Column-major dense panels with optional
     FP16/QUANT8/rANS compression. For streaming NMF on dense data.
 }
 }

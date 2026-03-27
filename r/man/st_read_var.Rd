@@ -14,7 +14,7 @@ A \code{data.frame} with variable metadata, or an empty
   data.frame if no var table is present.
 }
 \description{
-Reads the embedded var table from a v2 \code{.spz} file without
+Reads the embedded var table from a \code{.spz} file without
 decompressing the matrix data. Returns an empty data.frame if no var
 table was stored.
 }

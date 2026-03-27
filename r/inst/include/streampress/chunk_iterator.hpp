@@ -5,7 +5,7 @@
 #ifndef STREAMPRESS_CHUNK_ITERATOR_HPP
 #define STREAMPRESS_CHUNK_ITERATOR_HPP
 
-#include <streampress/sparsepress_v2.hpp>
+#include <streampress/sparse.hpp>
 #include <streampress/core/platform_io.hpp>
 #include <string>
 #include <vector>

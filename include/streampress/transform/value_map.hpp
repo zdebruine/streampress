@@ -1,4 +1,4 @@
-// sparsepress - Lossless double-to-integer value mapping
+// streampress - Lossless double-to-integer value mapping
 // Copyright (C) 2026 Zach DeBruine
 // License: GPL (>= 3)
 

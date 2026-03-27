@@ -1,6 +1,10 @@
 # StreamPress
 
+[![Python tests](https://github.com/zdebruine/streampress/actions/workflows/python-tests.yaml/badge.svg)](https://github.com/zdebruine/streampress/actions/workflows/python-tests.yaml) [![R-CMD-check](https://github.com/zdebruine/streampress/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/zdebruine/streampress/actions/workflows/R-CMD-check.yaml)
+
 **StreamPress** is a header-only C++ library (with Python and R bindings) for high-performance compressed sparse matrix I/O using the `.spz` file format.
+
+**📖 Documentation:** [**Python**](https://zdebruine.github.io/streampress/python/) · [**R**](https://zdebruine.github.io/streampress/r/) · [**C++ headers**](include/streampress/)
 
 ## Why StreamPress?
 
@@ -11,15 +15,7 @@ Standard sparse matrix serialization formats (`.rds`, `.pickle`, Matlab `.mat`) 
 - **Column-oriented chunking** enables random column access and out-of-core streaming without decompressing the full file
 - **Optional transpose storage** — pre-store CSC(Aᵀ) for fast row access
 - **Row/column metadata** — attach `obs` (cell) and `var` (gene) annotation tables to the file
-- **Dense matrix support** — StreamPress v3 adds optional FP16, QUANT8, and rANS codecs for dense data
-
-## File Format Versions
-
-| Version | Data | Precision | Use case |
-|---------|------|-----------|----------|
-| v1 (legacy) | Sparse CSC | auto-detect | — |
-| **v2** | Sparse CSC | fp64/fp32/fp16/quant8 | scRNA-seq, ratings, graphs |
-| **v3** | Dense column-major | fp32/fp64 + codecs | NMF factor matrices |
+- **Dense matrix support** — optional FP16, QUANT8, and rANS codecs for dense data
 
 ## Installation
 
@@ -185,8 +181,8 @@ For each column chunk, StreamPress applies:
 | `st_slice(path, rows, cols)` | Read submatrix |
 | `st_add_transpose(path)` | Add transpose section |
 | `st_map_chunks(path, fn)` | Apply function to each chunk |
-| `st_write_dense(X, path)` | Write dense numpy array (v3) |
-| `st_read_dense(path)` | Read dense v3 file |
+| `st_write_dense(X, path)` | Write dense numpy array |
+| `st_read_dense(path)` | Read dense file |
 
 ### R (`streampress`)
 
@@ -195,8 +191,8 @@ For each column chunk, StreamPress applies:
 | `st_write(x, path, ...)` | Write `dgCMatrix` to `.spz` |
 | `st_read(path, ...)` | Read `.spz` → `dgCMatrix` |
 | `st_info(path)` | Read file metadata list |
-| `st_write_dense(x, path)` | Write dense matrix (v3) |
-| `st_read_dense(path)` | Read dense v3 file |
+| `st_write_dense(x, path)` | Write dense matrix |
+| `st_read_dense(path)` | Read dense file |
 | `st_read_obs(path)` | Read row metadata `data.frame` |
 | `st_read_var(path)` | Read column metadata `data.frame` |
 | `st_convert(input, output, ...)` | Convert to `.spz` with options |
@@ -207,8 +203,8 @@ For each column chunk, StreamPress applies:
 streampress/
 ├── include/streampress/    ← Header-only C++ library
 │   ├── streampress_api.hpp ← Public API (write, read, slice, info)
-│   ├── sparsepress_v2.hpp  ← Sparse chunked format (primary)
-│   ├── sparsepress_v3.hpp  ← Dense column-panel format
+│   ├── sparse.hpp          ← Sparse chunked format (primary)
+│   ├── dense.hpp           ← Dense column-panel format
 │   ├── codec/              ← rANS, Golomb-Rice, VarInt, bitstream
 │   ├── core/               ← CSCMatrix, PRNG, platform I/O
 │   ├── format/             ← Binary header structures
@@ -225,10 +221,3 @@ streampress/
 ## License
 
 MIT — see [LICENSE](LICENSE).
-
-## Citation
-
-If you use StreamPress in published research, please cite the factornet paper:
-
-> DeBruine, Melcher, and Triche (2021). *Fast and robust non-negative matrix
-> factorization for single-cell data*. bioRxiv. <https://doi.org/10.1101/2021.09.01.458620>

@@ -194,9 +194,9 @@ with tempfile.TemporaryDirectory() as tmp:
     print(f"Total nnz via streaming: {total_nnz:,} (expected {A.nnz:,})")
 ```
 
-## Dense Matrix Support (v3)
+## Dense Matrix Support
 
-StreamPress v3 handles dense matrices with optional compression codecs:
+StreamPress handles dense matrices with optional compression codecs:
 
 ```{code-cell} ipython3
 with tempfile.TemporaryDirectory() as tmp:
