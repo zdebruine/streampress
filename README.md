@@ -4,7 +4,7 @@
 
 **StreamPress** is a header-only C++ library (with Python and R bindings) for high-performance compressed sparse matrix I/O using the `.spz` file format.
 
-**📖 Documentation:** [**Python**](https://zdebruine.github.io/streampress/python/) · [**R**](https://zdebruine.github.io/streampress/r/) · [**C++ headers**](include/streampress/)
+**📖 Documentation:** [**Python**](https://zdebruine.github.io/streampress/python/) · [**R**](https://zdebruine.github.io/streampress/r/) · [**C++ headers**](https://github.com/zdebruine/streampress/tree/main/include/streampress)
 
 ## Why StreamPress?
 

@@ -30,9 +30,13 @@ target_compile_definitions(_core PRIVATE
 )
 
 # Override nanobind's -Os; sparse codec needs -O3 for speed.
-target_compile_options(_core PRIVATE -O3)
-if(NOT DEFINED ENV{CIBUILDWHEEL})
-    target_compile_options(_core PRIVATE -march=native)
+if(MSVC)
+    target_compile_options(_core PRIVATE /O2)
+else()
+    target_compile_options(_core PRIVATE -O3)
+    if(NOT DEFINED ENV{CIBUILDWHEEL})
+        target_compile_options(_core PRIVATE -march=native)
+    endif()
 endif()
 
 if(OpenMP_CXX_FOUND)

@@ -28,11 +28,8 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install system build tools
-        run: sudo apt-get install -y cmake ninja-build
-
       - name: Install streampress + Sphinx deps
-        run: pip install cmake ninja && pip install ".[docs]" ipykernel
+        run: pip install ".[docs]" ipykernel -v
 
       - name: Build Python docs
         run: |
