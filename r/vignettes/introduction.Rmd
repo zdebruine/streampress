@@ -1,0 +1,196 @@
+---
+title: "Introduction to streampress"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to streampress}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 4
+)
+```
+
+## Overview
+
+**streampress** is a high-performance binary format for sparse matrices. It provides:
+
+- **Fast I/O** with RLE and entropy coding (rANS, Golomb–Rice, varint)
+- **Streaming reads** without loading the full matrix into RAM
+- **Column slicing** directly from disk
+- **Integrated metadata** (obs/var annotation tables)
+
+This vignette demonstrates the full workflow on synthetic sparse data.
+
+## Generating Synthetic Data
+
+```{r generate}
+library(streampress)
+library(Matrix)
+
+set.seed(42)
+
+# 5000 rows × 500 columns, ~5% fill
+m <- 5000L
+n <- 500L
+nnz <- as.integer(m * n * 0.05)
+rows <- sample.int(m, nnz, replace = TRUE)
+cols <- sample.int(n, nnz, replace = TRUE)
+vals <- rexp(nnz)                       # non-negative, Poisson-like
+
+mat <- sparseMatrix(i = rows, j = cols, x = vals, dims = c(m, n))
+mat <- as(mat, "CsparseMatrix")
+
+cat(sprintf("Matrix: %d × %d, %.2f%% fill, %d non-zeros\n",
+            nrow(mat), ncol(mat),
+            100 * nnzero(mat) / (nrow(mat) * ncol(mat)),
+            nnzero(mat)))
+```
+
+## Writing and Reading
+
+```{r write_read}
+path <- tempfile(fileext = ".spz")
+
+# Write with default options (v2 chunked sparse)
+st_write(mat, path)
+cat("Written to:", path, "\n")
+
+# Read back
+mat2 <- st_read(path)
+cat(sprintf("Read back: %d × %d, %d non-zeros\n",
+            nrow(mat2), ncol(mat2), nnzero(mat2)))
+
+# Verify numerical identity
+# Verify numerical identity (lossless at auto precision for these values)
+stopifnot(all.equal(as.matrix(mat), as.matrix(mat2), tolerance = 1e-6))
+cat("Round-trip: PASSED\n")
+```
+
+## File Metadata
+
+```{r info}
+info <- st_info(path)
+print(info)
+```
+
+The `st_info()` function returns format version, matrix dimensions, non-zero count, creation time, and per-chunk encoding statistics.
+
+## Column Slicing
+
+A key feature of streampress is efficient **column slicing** — reading a subset of columns without loading the full matrix. Use `st_slice_cols()` for exact column selection:
+
+```{r slice}
+# Read columns 101–150 directly from disk (exact, any chunk size)
+sub <- st_slice_cols(path, cols = 101L:150L)
+cat(sprintf("Sliced columns 101–150: %d × %d\n", nrow(sub), ncol(sub)))
+
+# Same result as indexing the full matrix
+ref <- mat[, 101:150, drop = FALSE]
+stopifnot(all.equal(as.matrix(ref), as.matrix(sub), tolerance = 1e-6))
+cat("Column slice: PASSED\n")
+```
+
+## Metadata Tables
+
+streampress files can embed **obs** (row) and **var** (column) annotation tables:
+
+```{r metadata}
+obs <- data.frame(
+  cell_id   = paste0("cell_", seq_len(nrow(mat))),
+  cell_type = sample(c("T", "B", "NK", "Mono"), nrow(mat), replace = TRUE),
+  stringsAsFactors = FALSE
+)
+var <- data.frame(
+  gene_id = paste0("gene_", seq_len(ncol(mat))),
+  highly_variable = sample(c(TRUE, FALSE), ncol(mat), replace = TRUE),
+  stringsAsFactors = FALSE
+)
+
+path2 <- tempfile(fileext = ".spz")
+st_write(mat, path2, obs = obs, var = var)
+
+# Read back metadata only
+obs2 <- st_read_obs(path2)
+var2 <- st_read_var(path2)
+
+cat(sprintf("obs table: %d rows × %d cols\n", nrow(obs2), ncol(obs2)))
+cat(sprintf("var table: %d rows × %d cols\n", nrow(var2), ncol(var2)))
+
+stopifnot(identical(as.character(obs$cell_id), as.character(obs2$cell_id)))
+stopifnot(identical(as.character(var$gene_id), as.character(var2$gene_id)))
+cat("Metadata round-trip: PASSED\n")
+```
+
+## Dense Matrix I/O
+
+For non-sparse data (e.g., embedding matrices, loadings), streampress offers a dense column-panel format (v3):
+
+```{r dense}
+set.seed(1)
+dense <- matrix(rnorm(1000 * 32), nrow = 1000, ncol = 32)
+
+path3 <- tempfile(fileext = ".spz")
+st_write_dense(dense, path3)
+
+dense2 <- st_read_dense(path3)
+stopifnot(all.equal(dense, dense2, tolerance = 1e-6))
+cat(sprintf("Dense round-trip: %d × %d PASSED\n", nrow(dense2), ncol(dense2)))
+```
+
+## Compression Benchmark
+
+```{r compression, fig.cap="Compression time vs. matrix sparsity."}
+library(Matrix)
+
+sizes  <- c(0.01, 0.025, 0.05, 0.10, 0.20)
+times  <- numeric(length(sizes))
+ratios <- numeric(length(sizes))
+
+for (i in seq_along(sizes)) {
+  fill <- sizes[i]
+  nnz_i <- as.integer(5000 * 500 * fill)
+  m_i <- sparseMatrix(
+    i = sample.int(5000, nnz_i, replace = TRUE),
+    j = sample.int(500,  nnz_i, replace = TRUE),
+    x = rexp(nnz_i),
+    dims = c(5000, 500)
+  )
+  p <- tempfile(fileext = ".spz")
+  t0 <- proc.time()["elapsed"]
+  st_write(m_i, p)
+  times[i] <- (proc.time()["elapsed"] - t0) * 1e3  # ms
+
+  raw_bytes  <- nnz_i * 8 + nnz_i * 4 + (500 + 1) * 4
+  file_bytes <- file.info(p)$size
+  ratios[i] <- raw_bytes / file_bytes
+}
+
+par(mfrow = c(1, 2))
+plot(sizes * 100, times,
+     xlab = "Fill (%)", ylab = "Write time (ms)",
+     type = "b", pch = 19, main = "Write time vs. sparsity")
+
+plot(sizes * 100, ratios,
+     xlab = "Fill (%)", ylab = "Compression ratio",
+     type = "b", pch = 19, main = "Compression ratio vs. sparsity")
+```
+
+Sparser matrices achieve higher compression ratios (e.g., ~`r round(ratios[1], 1)`× at 1% fill) because the run-length and entropy coders exploit longer zero runs. Write time scales roughly linearly with non-zero count.
+
+## Summary
+
+| Operation        | Function          | Key argument        |
+|------------------|-------------------|---------------------|
+| Write sparse     | `st_write()`      | `obs=`, `var=`      |
+| Read sparse      | `st_read()`       | `col_start`, `col_end` |
+| File metadata    | `st_info()`       |                     |
+| Read obs table   | `st_read_obs()`   |                     |
+| Read var table   | `st_read_var()`   |                     |
+| Write dense      | `st_write_dense()`|                     |
+| Read dense       | `st_read_dense()` |                     |

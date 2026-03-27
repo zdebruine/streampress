@@ -1,0 +1,54 @@
+url: https://zdebruine.github.io/streampress/
+
+template:
+  bootstrap: 5
+  bootswatch: flatly
+
+home:
+  title: streampress
+  description: High-performance sparse matrix I/O for R, Python, and C++
+
+navbar:
+  structure:
+    left: [intro, reference, articles, news]
+    right: [github]
+  components:
+    intro:
+      text: Get started
+      href: articles/introduction.html
+    github:
+      icon: fab fa-github fa-lg
+      href: https://github.com/zdebruine/streampress
+      aria-label: GitHub
+
+reference:
+  - title: Sparse Matrix I/O
+    desc: Write and read sparse matrices in the streampress (.spz) format.
+    contents:
+      - st_write
+      - st_read
+      - st_read_transpose
+  - title: Dense Matrix I/O
+    desc: Write and read dense matrices (v3 column-panel format).
+    contents:
+      - st_write_dense
+      - st_read_dense
+  - title: Metadata
+    desc: Inspect files and read annotation tables.
+    contents:
+      - st_info
+      - st_read_obs
+      - st_read_var
+  - title: Utilities
+    contents:
+      - st_convert
+
+articles:
+  - title: Vignettes
+    contents:
+      - introduction
+
+news:
+  releases:
+    - text: "streampress 1.0.0"
+      href: https://github.com/zdebruine/streampress/releases/tag/v1.0.0

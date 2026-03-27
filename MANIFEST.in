@@ -1,0 +1,8 @@
+include LICENSE
+include README.md
+include pyproject.toml
+recursive-include python/src *.py *.pyi *.cpp
+recursive-include include *.hpp
+graft include/streampress
+prune python/build
+prune dist

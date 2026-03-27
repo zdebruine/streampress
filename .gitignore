@@ -1,0 +1,62 @@
+# --- C++ build artifacts ---
+builddir/
+*.o
+*.so
+*.dylib
+*.dll
+*.a
+
+# --- Python build artifacts ---
+*.egg-info/
+dist/
+build/
+__pycache__/
+*.pyc
+*.pyo
+.eggs/
+.pytest_cache/
+python/_skbuild/
+python/build/
+python/dist/
+# In-tree CMake build artifacts (from editable install)
+python/CMakeFiles/
+python/CMakeCache.txt
+python/CMakeInit.txt
+python/cmake_install.cmake
+python/build.ninja
+python/CTestTestfile.cmake
+python/libnanobind*.a
+python/_core*.so
+python/_core*.pyd
+python/.cmake/
+python/.ninja_deps
+python/.ninja_log
+python/.skbuild-info.json
+
+# --- R artifacts ---
+r/*.Rcheck/
+*.Rcheck/
+r/*.tar.gz
+*.tar.gz
+r/docs/
+r/inst/doc/*.html
+r/inst/doc/*.R
+r/vignettes/*.html
+r/vignettes/*.R
+r/vignettes/cache/
+r/vignettes/figure/
+
+# --- Editor / IDE ---
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# --- HPC scratch ---
+*.log
+*.err
+_*.py
+__*.py
+slurm-*.out

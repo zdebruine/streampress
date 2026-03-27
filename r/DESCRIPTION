@@ -1,0 +1,41 @@
+Package: streampress
+Type: Package
+Title: High-Performance Compressed Sparse Matrix I/O (.spz Format)
+Version: 1.0.0
+Date: 2026-03-27
+Authors@R: person("Zachary", "DeBruine",
+    email = "zacharydebruine@gmail.com",
+    role = c("aut", "cre"),
+    comment = c(ORCID = "0000-0003-2234-4827"))
+Description: Provides fast lossless (or lossy) compression of sparse matrices
+    using the StreamPress (.spz) columnar format based on rANS entropy coding
+    with delta-encoded indices. Achieves 5-10x compression over raw float32 CSC
+    binary on typical single-cell RNA-seq count data and is faster to read than
+    raw CSC because sparse object reconstruction is parallelised across
+    independent chunks. Supports optional transpose storage for fast row access,
+    row and column metadata tables (obs/var), dense matrix I/O with optional
+    FP16/QUANT8 codecs, and partial column reads without full decompression.
+    The .spz file format specification and C++ header-only library are available
+    at <https://github.com/zdebruine/streampress>.
+Depends:
+    R (>= 4.1.0),
+    Matrix
+License: MIT + file LICENSE
+Imports:
+    Rcpp,
+    methods
+Suggests:
+    hdf5r,
+    jsonlite,
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+VignetteBuilder: knitr
+LinkingTo:
+    Rcpp,
+    RcppEigen
+RoxygenNote: 7.3.3
+Config/testthat/edition: 3
+Encoding: UTF-8
+URL: https://github.com/zdebruine/streampress
+BugReports: https://github.com/zdebruine/streampress/issues
