@@ -33,6 +33,10 @@ python/.ninja_deps
 python/.ninja_log
 python/.skbuild-info.json
 
+# --- Sphinx / docs build output ---
+python/docs/_build/
+_site/
+
 # --- R artifacts ---
 r/*.Rcheck/
 *.Rcheck/

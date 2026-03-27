@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StreamPress</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      max-width: 680px;
+      margin: 80px auto;
+      padding: 0 24px;
+      color: #1a1a2e;
+      background: #fafafa;
+    }
+    h1 {
+      font-size: 2.6em;
+      font-weight: 700;
+      margin: 0 0 6px;
+      letter-spacing: -0.5px;
+    }
+    .tagline {
+      font-size: 1.05em;
+      color: #555;
+      margin: 0 0 10px;
+    }
+    .badges { margin-bottom: 32px; }
+    .badges img { margin-right: 6px; }
+    .cards {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .card {
+      flex: 1;
+      min-width: 200px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 22px 20px;
+      text-decoration: none;
+      color: inherit;
+      background: #fff;
+      transition: box-shadow 0.15s, border-color 0.15s;
+    }
+    .card:hover {
+      box-shadow: 0 6px 20px rgba(0,0,0,0.09);
+      border-color: #a0aec0;
+    }
+    .card-lang {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.72em;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .py  { background: #eaf2ff; color: #2c6fad; }
+    .r   { background: #eaf0ff; color: #234ea3; }
+    .cpp { background: #f0eaff; color: #6b21a8; }
+    .card h2 { margin: 0 0 6px; font-size: 1.1em; }
+    .card p   { margin: 0; font-size: 0.875em; color: #666; line-height: 1.5; }
+    .footer { color: #aaa; font-size: 0.82em; }
+    .footer a { color: #888; }
+    code {
+      background: #f1f5f9;
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-size: 0.88em;
+    }
+  </style>
+</head>
+<body>
+  <h1>StreamPress</h1>
+  <p class="tagline">
+    Compressed sparse matrix I/O for C++, Python, and R.
+    Read and write <code>.spz</code> files with 5–10× compression over raw CSC binary.
+  </p>
+
+  <div class="badges">
+    <a href="https://github.com/zdebruine/streampress/actions/workflows/python-tests.yaml">
+      <img src="https://github.com/zdebruine/streampress/actions/workflows/python-tests.yaml/badge.svg" alt="Python tests">
+    </a>
+    <a href="https://github.com/zdebruine/streampress/actions/workflows/R-CMD-check.yaml">
+      <img src="https://github.com/zdebruine/streampress/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R CMD check">
+    </a>
+  </div>
+
+  <div class="cards">
+    <a class="card" href="python/">
+      <span class="card-lang py">Python</span>
+      <h2>Python docs</h2>
+      <p>API reference and vignette for the <code>streampress</code> Python package.</p>
+    </a>
+    <a class="card" href="r/">
+      <span class="card-lang r">R</span>
+      <h2>R docs</h2>
+      <p>Function reference and vignette for the <code>streampress</code> R package.</p>
+    </a>
+    <a class="card" href="https://github.com/zdebruine/streampress/tree/main/include/streampress">
+      <span class="card-lang cpp">C++</span>
+      <h2>C++ headers</h2>
+      <p>Header-only library. Drop <code>include/streampress/</code> into your project.</p>
+    </a>
+  </div>
+
+  <p class="footer">
+    <a href="https://github.com/zdebruine/streampress">GitHub</a> ·
+    MIT License · Zachary DeBruine
+  </p>
+</body>
+</html>

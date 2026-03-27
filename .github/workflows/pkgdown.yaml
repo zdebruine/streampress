@@ -3,20 +3,37 @@ on:
     branches: [main]
   workflow_dispatch:
 
-name: pkgdown
+name: GitHub Pages
+
+permissions:
+  contents: write
 
 jobs:
-  pkgdown:
+  build-and-deploy:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
-    permissions:
-      contents: write
-
     steps:
       - uses: actions/checkout@v4
 
+      # ── Python (Sphinx) docs ──────────────────────────────────────
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install system build tools
+        run: sudo apt-get install -y cmake ninja-build
+
+      - name: Install streampress + Sphinx deps
+        run: pip install ".[docs]" furo ipykernel
+
+      - name: Build Python docs
+        run: |
+          cp python/vignettes/streampress.md python/docs/streampress.md
+          sphinx-build -b html python/docs _site/python
+
+      # ── R pkgdown ────────────────────────────────────────────────
       - uses: r-lib/actions/setup-pandoc@v2
 
       - uses: r-lib/actions/setup-r@v2
@@ -30,12 +47,18 @@ jobs:
           needs: website
 
       - name: Build pkgdown site
-        run: |
-          cd r
-          Rscript -e 'pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)'
+        working-directory: r
+        run: Rscript -e 'pkgdown::build_site(dest_dir = "../_site/r", new_process = FALSE, install = TRUE)'
 
+      # ── Root landing page ─────────────────────────────────────────
+      - name: Assemble root index
+        run: |
+          mkdir -p _site
+          cp docs/index.html _site/index.html
+
+      # ── Deploy ────────────────────────────────────────────────────
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: r/docs
+          publish_dir: _site
