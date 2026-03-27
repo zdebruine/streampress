@@ -24,11 +24,11 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install build deps
-        run: pip install scikit-build-core nanobind cmake ninja
+      - name: Install build deps (cmake + ninja for C++ compilation)
+        run: pip install cmake ninja
 
       - name: Build and install
-        run: pip install -e . --no-build-isolation -v
+        run: pip install ".[test]" -v
 
       - name: Run tests
         run: python -m pytest python/tests/ -v --tb=short

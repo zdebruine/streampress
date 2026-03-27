@@ -32,7 +32,7 @@ jobs:
         run: sudo apt-get install -y cmake ninja-build
 
       - name: Install streampress + Sphinx deps
-        run: pip install ".[docs]" furo ipykernel
+        run: pip install cmake ninja && pip install ".[docs]" ipykernel
 
       - name: Build Python docs
         run: |
